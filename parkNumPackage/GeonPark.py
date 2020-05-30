@@ -230,11 +230,14 @@ def reversePlay_OnlyCapture():
             # cv2.imshow('Frame in Reverse', frame)
 
             cv2.imwrite("C:\\HC\\onlyCaptureList\\" + "onlyCapture_" + str(listNumber) + ".jpg", frame)
+            fw = open('C:\\HC\\afterCrop\\ocr' + str(listNumber) + '.text', 'w', -1, "utf-8")
+            fw.write("parknum is not found")
             captureCount += 1
             listNumber += 1
 
             # 사진을 3개저장하면종료.
             if captureCount > 3:
+                fw.close()
                 break;
 
             # 프레임을 뒤로 감소시키며 거꾸로 재생
