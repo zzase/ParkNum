@@ -49,11 +49,11 @@ def main():
     bucket = storage.bucket()
     blobs=[]
     for i in range(0,3):
-        blobs.append(bucket.blob('test{}'.format(i+1)))
+        blobs.append(bucket.blob('Parking{}'.format(i+1)))
     for i in range(0,3):
-        outfile = 'C:\\HC\\imgList\\test_{}.jpg'.format(i+1).replace('\u202a',"")
+        outfile = 'C:\\HC\\imgList\\Parking_{}.jpg'.format(i+1).replace('\u202a',"")
         with open(outfile,'rb') as my_file:
             blobs[i].upload_from_file(my_file)
         print("success update storage")
 
-#main()
+# main()

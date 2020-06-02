@@ -82,11 +82,19 @@ def find_recent_video():
 
     return check_video_path
 
+def count_file_in_folder():
+    files_path = "C:\\HC\\afterCrop\\"
+    file_list = []
+    for f_name in os.listdir(f"{files_path}"):
+        file_list.append(f_name)
+
+    return len(file_list)
+
 
 def cropTextImg(index):
     # read 는 cv2함수 open pil함수
-    img = cv2.imread("C:\\HC\\imgList\\" + "test_" + str(index) + ".jpg", cv2.IMREAD_UNCHANGED)
-    # img = cv2.imread("C:\\HC\\imgList\\" + "test_" + str(index) + ".jpg", cv2.IMREAD_GRAYSCALE)
+    img = cv2.imread("C:\\HC\\imgList\\" + "Parking_" + str(index) + ".jpg", cv2.IMREAD_UNCHANGED)
+    # img = cv2.imread("C:\\HC\\imgList\\" + "Parking_" + str(index) + ".jpg", cv2.IMREAD_GRAYSCALE)
     # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     result = tfnet.return_predict(img)
     if result == list():
@@ -159,7 +167,7 @@ def reversePlay(capture):
             results = tfnet.return_predict(frame)
             for result in results:
                 if result['label'] == 'parknum':
-                    cv2.imwrite("C:\\HC\\imgList\\" + "test_" + str(listNumber) + ".jpg", frame)
+                    cv2.imwrite("C:\\HC\\imgList\\" + "Parking_" + str(listNumber) + ".jpg", frame)
                     captureCount += 1
                     listNumber += 1
                     print("찰칵스")
@@ -229,7 +237,7 @@ def reversePlay_OnlyCapture():
 
             # cv2.imshow('Frame in Reverse', frame)
 
-            cv2.imwrite("C:\\HC\\onlyCaptureList\\" + "onlyCapture_" + str(listNumber) + ".jpg", frame)
+            cv2.imwrite("C:\\HC\\imgList\\" + "Parking_" + str(listNumber) + ".jpg", frame)
             fw = open('C:\\HC\\afterCrop\\ocr' + str(listNumber) + '.text', 'w', -1, "utf-8")
             fw.write("parknum is not found")
             captureCount += 1
@@ -252,20 +260,14 @@ def reversePlay_OnlyCapture():
             break
 
 def remove_Forder() :
-    capture_folder_path = "C:\\HC\\onlyCaptureList\\"
     afterCrop_folder_path = "C:\\HC\\afterCrop\\"
     imgList_folder_path = "C:\\HC\\imgList\\"
-
-    for f_name in os.listdir(f"{capture_folder_path}"):
-        os.remove(capture_folder_path + f_name)
 
     for f_name in os.listdir(f"{afterCrop_folder_path}"):
         os.remove(afterCrop_folder_path + f_name)
 
     for f_name in os.listdir(f"{imgList_folder_path}"):
         os.remove(imgList_folder_path + f_name)
-
-
 
 
 # capture = cv2.VideoCapture(find_recent_video())
@@ -291,6 +293,16 @@ def Main():
 
     capture.release()
     cv2.destroyAllWindows()
+    # while(True):
+    #     afterCrop_folder_path = "C:\\HC\\afterCrop\\"
+    #     if(len(os.walk(afterCrop_folder_path).next()[2]) >=3) :
+    #         break;
+    afterCrop_folder_path = "C:\\HC\\afterCrop\\"
+    while True:
+        if count_file_in_folder() >= 1:
+            break
+
     firebase.main()
+
 
 Main()
